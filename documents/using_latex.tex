@@ -1,0 +1,996 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% using_latex.tex %%%%%%%%%%%%%%%
+%%%%%%%% Scott Harper %%%%%%%%%%%%%%%%%%
+%%%%%%%% 2017 %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% COPYRIGHT %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Copyright Scott Harper 2017. 
+%%% This document is licensed 
+%%% under the Creative Commons
+%%% Attribution-Share Alike 4.0 license.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[11pt]{article}
+
+%%% AMS PACKAGES
+
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+%%% PAGE LAYOUT
+
+\usepackage[a4paper, margin=2cm]{geometry}
+
+%%% PARAGRAPHING
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6\baselineskip}
+
+%%% LISTS
+
+\usepackage[shortlabels]{enumitem}
+\setlist{topsep=0pt}
+
+%%% SECTIONS
+
+\usepackage{titlesec}
+\titlespacing{\section}{0pt}{1.5\baselineskip}{0pt}
+\titlespacing{\subsection}{0pt}{1.5\baselineskip}{0pt}
+\titlespacing{\subsubsection}{0pt}{\baselineskip}{0pt}
+
+%%% THEOREMS
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem*{example*}{Example}
+
+\theoremstyle{plain}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+
+%%% PACKAGES
+
+\usepackage[noBBpl]{mathpazo} % font
+\usepackage{amsmath,amssymb,amsthm,amsfonts} %basic maths commands, symbols, theorem environments, fonts
+\usepackage{mathtools} %prescript
+\usepackage{mathrsfs} %mathscr
+\usepackage{booktabs} %tables
+\usepackage{xcolor} %color
+\usepackage{url} %urls
+
+%%% INDEX
+
+\usepackage{imakeidx}
+\makeindex
+
+%%% BLANK FOOTNOTE
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+%%% VERBATIM ENVIRONMENT
+
+\usepackage{verbatim}
+\usepackage{etoolbox}
+\makeatletter
+\preto{\@verbatim}{\topsep=2pt \partopsep=2pt}
+\makeatother
+\newlength\myverbindent 
+\setlength\myverbindent{0.8cm}
+\makeatletter
+\def\verbatim@processline{%
+  \hspace{\myverbindent}\the\verbatim@line\par}
+\makeatother
+
+%%% LINED ENVIORNMENT
+
+\usepackage{mdframed}
+\newenvironment{lined}[1][\unskip]
+{
+\begin{mdframed}
+[
+  linewidth=3pt,
+  rightline=false,topline=false,bottomline=false,
+  innerleftmargin=6pt,innerrightmargin=0pt,innertopmargin=1pt,innerbottommargin=1pt,
+  skipabove=\baselineskip, skipbelow=\baselineskip
+]
+{\bfseries #1}\ 
+}
+{
+ \end{mdframed}
+}
+
+
+%%% TITLE DATA
+\title{\textbf{Using \LaTeX}}
+\author{Scott Harper}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\LaTeX\ is the standard means of preparing a mathematical document. This guide is intended to provide an introduction to using \LaTeX\ and highlight some of its key features. A miscellany of various tips and tricks has also been included. Once some basic familiarity with \LaTeX\ has been obtained, it is recommended that the reader consult the associated \texttt{.tex} file in parallel with reading this guide.
+\end{abstract}
+
+
+\section{Introduction} \label{sec:intro}
+\LaTeX\ is the standard means of preparing a mathematical document. This is for some very good reasons: it produces attractive looking documents; it is free; and it makes some potentially difficult tasks very easy. However, if you have never used \LaTeX\ before, then you will have to allow a little time to get used to using it. As with many things, \LaTeX\ is best learned through practice. As such, I believe that the best approach to \LaTeX\ is to start writing a document and look up the things you don't know how to do. However, there are two main problems with this approach alone. How do you learn the very basics? And how do you handle some more obscure issues when you become more advanced? This guide is aimed at these two ends of the learning process. 
+
+I hope that by reading the main body of this guide, in parallel with looking at the associated \texttt{.tex} file and trying out the features highlighted, you should quite quickly be comfortable with how \LaTeX\ works. After this, when you come to use a particular command and cannot remember the details you can quickly look these details up in this guide or (probably more quickly) online. The features set off by a black vertical line are not intended to be read on the first reading, but rather these are advanced features or typesetting tips, which are the result of personal experience. I hope that collecting these titbits together in one document will serve as a useful resource for anyone who comes across similar problems which are less easily solved by a quick internet search, or for someone who wants to help polish their \LaTeX\ or typesetting technique.
+
+Unlike producing working \LaTeX\ code, typesetting is necessarily a more subjective topic; however, at times it is difficult to separate these two ideas. Where comments on typesetting are made, these reflect my personal taste and I expect some to disagree with me. I have attempted to maintain consistency with the \emph{New Oxford Style Manual} \cite{ref:oxford_manual} (which incorporates the current incarnation of \emph{Hart's Rules}).
+
+Three caveats: \emph{I do not seek to be authoritative.} To the best of my knowledge the content of this guide is correct, but I do not doubt that it may contain errors or that I may have missed more efficient or elegant methods. Any errors or suggestions would be most welcome. \emph{I do not seek to be comprehensive.} Even if a \LaTeX\ guide could be comprehensive it would be to long to be useful. I have aimed to introduce the core features of \LaTeX\ but this will have undoubtedly been skewed by personal interests. The selection of titbits is a product of my (pretty short) experience of \LaTeX.\@ \emph{I do not seek to be technical.} I am not a computer scientist, nor do I claim to have a great knowledge of the inner workings of \LaTeX.\@ This guide unashamedly reflects this and, thus, is written from a user-focussed perspective.
+
+
+
+\section{Getting Started} \label{sec:gs}
+\subsection{Getting \LaTeX} \label{ssec:gs_getting_latex}
+\LaTeX\ is a mechanism by which one writes a \emph{source file}\index{source file} -- a plain text file with file extension \texttt{.tex} -- and transforms this into a high quality document (usually a PDF). The source file contains both the content of your document and instructions on how this content should be presented. Therefore, you will need an \emph{editor}\index{editor} for writing the \texttt{.tex} file and a \emph{compiler}\index{compiler} to create final document.
+
+The fastest way to begin doing this -- but one which is not free of disadvantages -- is the online resource ShareLaTeX.\@ In your browser there will be two panels: in one you write your \texttt{.tex} file and the other will show the compiled PDF when you click ``Recompile''. ShareLaTeX, as the name suggests, has capabilities for multiple users sharing files and working on the same document at once.
+
+In the long run, working on your desktop, rather than the browser, is probably recommended. In this case, you should download a \LaTeX\ editor -- for example, TeXstudio -- and a compiler. For the latter, I recommend that Mac users download MacTeX \cite{web:mactex} and Windows users download MiKTeX \cite{web:miktex}.  Of course, if you prefer you can work in the terminal. Here you can use your favourite text editor to write the \texttt{.tex} file, then you can compile using \texttt{pdflatex}\index{pdflatex}.
+
+
+\subsection{Your first document} \label{ssec:gs_first_doc}
+Let us begin by explaining how to produce your first \LaTeX\ file. Open your \LaTeX\ editor (for example, TeXstudio, ShareLaTeX or vim) and write the following  basic \LaTeX\ file.
+
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+This is a very simple document.
+\end{document}
+\end{verbatim} 
+
+Save this file as \texttt{first.tex}, then compile this document. Your \LaTeX\ editor's manual should make it clear how to do this: in ShareLaTeX click the ``Recompile'' button and in TeXstudio click the play button. More files will have appeared in the folder where you saved the file \texttt{first.tex}. One of these files will be \texttt{first.pdf}. This compiled document should include ``This is a very simple document.'' and nothing else (other than a page number). 
+
+If you managed this, then you can now write any document, provided that it consists only of text and provided you don't want to change the formatting of the document. In Section~\ref{sec:how}, we look at how to do much more exciting things. However, we will conclude this section by explaining some of the essential background to \LaTeX. 
+
+
+\subsection{The basics} \label{ssec:gs_basics}
+\subsubsection{The outline of a \LaTeX\ document} \label{sssec:gs_basics_outline}
+Every \LaTeX\ file begins with the line \verb|\documentclass{?}| where \texttt{?} is your choice of the \emph{document class}\index{document class|(textbf}. Possible document classes include \texttt{article}, \texttt{report} and \texttt{book}. For the purpose of this guide we may assume that the document class is \texttt{article}. Other document classes, unsurprisingly, provide features suitable for producing other classes of documents (see \cite[\mbox{Document\_Structure\#Document\_classes}]{web:wikibook}).\index{document class|)}
+
+Every \LaTeX\ file contains the line \verb|\begin{document}| and later \verb|\end{document}|. All lines between these two, contribute directly to output file. The lines before these are known as the \emph{preamble}\index{preamble}, where general commands are placed which affect the entire document. 
+
+Some features of \LaTeX\ require extra packages\index{packages} to be loaded. To include a package named \texttt{?} include \verb|\usepackage{?}| in the preamble. Multiple packages can be loaded in the same use of the command \verb|\usepackage|. For example, I recommend loading the following AMS packages in all documents:
+
+\begin{verbatim}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\end{verbatim}
+
+
+\subsubsection{Comments} \label{sssec:gs_basics_comments}
+To make \emph{comments}\index{comments} (notes in the \texttt{.tex} file which do not influence the compiled file) preface the text with \verb|%|.\@ All text on a line after a \verb|%| will not be taken into account when the document is compiled. For example, the following \LaTeX\ file would produce the same compiled document as the one in Section~\ref{ssec:gs_first_doc}.
+
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+This is a very simple document. % A comment
+% Another comment
+\end{document}
+\end{verbatim} 
+
+
+\subsubsection{Spaces and paragraphs} \label{sssec:gs_basics_spaces}
+\LaTeX\ considers multiple spaces\index{spacing|(textbf} the same as one. To manually add an extra space, use \verb|\|.\@ For example:
+
+\begin{verbatim}
+Spot the  extra space \ in this.
+\end{verbatim} 
+
+Spot the extra space \ in this.
+
+\LaTeX\ will not take into account the starting of a new line. To begin a new paragraph leave a blank line. \LaTeX\ considers several blank lines the same as one, so you can use blank lines to make your \LaTeX\ file easy to read.
+
+\begin{lined}[Typesetting tip]
+There are places where you will want to avoid a line breaking. For example, it would be undesirable for ``10~km'' or ``Dr~Frankenstein'' or ``Theorem~42'' to be broken over two lines. In these situations, use a non-breaking space given by \verb|~|.\@ For example, \verb|10~km| will not break over two lines.
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+By default \LaTeX\ inserts a larger space between sentences than between words. This is the traditional method of spacing but has been abandoned by many authors. (For example, it is the Oxford style to have the same size of space between words and sentences.) To make interword spaces and intersentence spaces equal, include the command \verb|\frenchspacing| in the preamble.
+
+\LaTeX\ believes that a sentence has ended when a lower case letter then a full stop appear. (It chooses not to believe that \verb|D.| ends a sentence to ensure that \verb|John D. Smith| has interword spacing between \verb|D.| and \verb|Smith|.) Therefore, if you choose to have longer intersentence spaces, then you must take the following precautions.  First, if a sentence ends with a character that is not a lower case letter, then an intersentence space must be manually added using the command \verb|\@|. For example, ``I want a PhD.\@ I am a student.'' should be typeset as \verb|I want a PhD.\@ I am a student.| Second, if a lower case letter then a full stop occurs in the middle of a sentence, then a interword space must be manually added using the command \verb|\|. For example, the sentence ``I want a doctorate, e.g.\ a DPhil.'' should be typeset as \verb|I want a doctorate e.g.\ a DPhil.|
+\end{lined}
+\index{spacing|)}
+
+
+\subsection{The title} \label{ssec:gs_title}
+The \emph{title}\index{title} section of a \LaTeX\ document is generated in two steps. First, include the information about the document in the preamble. For example
+\begin{verbatim}
+\title{Alice's Adventures in Wonderland}
+\author{Lewis Carroll}
+\date{\today}
+\end{verbatim}
+sets the title as ``Alice's Adventures in Wonderland'', sets the author as ``Lewis Carroll'' and sets the date as today's date. Second, include the command \verb|\maketitle| after the \verb|\begin{document}| line to print the title information.
+
+
+\subsubsection{Symbols} \label{ssec:gs_symbols}
+To insert \emph{inverted commas}\index{symbols!inverted commas} use \verb|`| to open and \verb|'| to close. For example, \verb|`single'| gives `single' and \verb|``double''| gives ``double''. 
+
+To insert a \emph{hyphen}\index{symbols!hyphens} use \verb|-|; for example, \verb|ice-cream| gives ``ice-cream''. To insert a \emph{dash}\index{symbols!dashes} use \verb|--|; for example, \verb|9am--5pm| gives ``9am--5pm'' and \verb|John -- my dad -- likes cats| gives ``John -- my dad -- likes cats''.
+
+\begin{lined}[Typesetting tip]
+For pauses and parenthesis, the \emph{em dash}\index{symbols!dashes} (--- given by \verb|---|) was traditionally used instead of the \emph{en dash}\index{symbols!dashes} (-- given by \verb|--|). Most US writers and many UK writers now use the en dash for all dashes. However many UK writers still use em dashes but leave no space\index{spacing!dashes} either side of the dash (the latter is done automatically in \LaTeX). This is the Oxford style. For example, \verb|John---my brother---likes cats| gives ``John---my brother---likes cats''.
+\end{lined}
+
+As we have already explained, the symbol \verb|%| has a special meaning in \LaTeX. Therefore, simply typing \verb|%| will not lead to a percentage sign in the compiled file. Instead we must type \verb|\%|.\@ For this reason, we say that \verb|%| is a \emph{reserved symbol}\index{symbols!reserved}. The reserved symbols and how to write them are given below.
+
+\begin{center}
+\begin{tabular}{cccccccccc}
+\toprule[1pt]
+\% & \^{} & \_ & \~{} & \$ & \& & \# & \{ & \} & \textbackslash{} \\
+\verb|\%| & \verb|\^{}| & \verb|\_| & \verb|\~| & \verb|\$| & \verb|\&| & \verb|\#| & \verb|\{| & \verb|\}| & \verb|\textbackslash{}| \\
+\bottomrule[1pt]
+\end{tabular}
+\end{center}
+
+Other symbols\index{symbols}, in addition to these reserved ones, can be included in a \LaTeX\ document by writing an appropriate \emph{command}\index{commands} beginning by with a backwards slash. For example \verb|\dots| provides an ellipsis \dots, \verb|\LaTeX| provides the \LaTeX\ symbol and \verb|\pounds| provides the pounds sterling symbol \pounds. To find out the command required for a particular symbol, use the Detexify app \cite{web:detexify} or consult \emph{The Comprehensive \LaTeX\ Symbol List} \cite{ref:comp_list}. Observe that most symbols when they are included \emph{gobble}\index{spacing!gobble} the space that follows them, so an additional space must be manually added after them. Therefore, in the middle of a sentence the \LaTeX\ symbol is actually typeset as \verb|\LaTeX\|.
+
+There are many commands for including letters from \emph{other alphabets} and \emph{diacritics}\index{diacritics}. Examples of these are given below.
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule[1pt]
+\l{}        & \o \\
+\verb|\l{}| & \verb|\o| \\
+\bottomrule[1pt]
+\end{tabular}
+\hspace{22pt}
+\begin{tabular}{cccccccc}
+\toprule[1pt]
+\`{a}        & \'{e}        & \^{u}        & \v{s}        & \c{c}        & \~{n}        & \"{o}        & \H{o} \\
+\verb|\`{a}| & \verb|\'{e}| & \verb|\^{u}| & \verb|\v{s}| & \verb|\c{c}| & \verb|\~{n}| & \verb|\"{o}| & \verb|\H{o}| \\
+\bottomrule[1pt]
+\end{tabular}
+\end{center}
+
+Note the difference between the final two diacritics. The latter, the Hungarian double acute, is the diacritic used in the name Paul Erd\H{o}s.
+
+To place a diacritic above an i or j, use the dotless versions of these letters provided by \verb|\i| and \verb|\j|; for example \verb|na\"{\i}ve| gives ``na\"{\i}ve''.
+
+
+
+\section{How to Use \LaTeX} \label{sec:how}
+\subsection{Text formatting} \label{ssec:how_formatting}
+To format\index{formatting|(textbf}\index{formatting!text style} text in \LaTeX, call a particular command then enclose the text you want to format in braces \verb|{|\dots \verb|}|. The following commands are available:
+\begin{itemize}
+\item \verb|\textbf{bold font}| gives \textbf{bold font}
+\item \verb|\textit{italic font}| gives \textit{italic font}
+\item \verb|\texttt{teletype font}| gives \texttt{teletype font}
+\item \verb|\textsc{small caps}| gives \textsc{small caps}
+\end{itemize}
+To emphasise a word, use the command \verb|\emph|; for example, \verb|\emph{maths}| gives \emph{maths}. This is preferable to using \verb|\textit{maths}| since it separates the content from the appearance. By default \verb|\emph| applies \verb|\textit|, but if you later decide you want to emphasise your text by emboldening it rather than italicising it, then you can change the definition of \verb|\emph| and all your emphasised text will change at once. 
+
+The document's \emph{text size}\index{formatting!text size} can be altered by passing an optional argument to the the \verb|\documentclass| command. For example, \verb|\documentclass[14pt]{article}| will produce a document where the text has size 14pt. Size of text within the document can be changed relative to this default size in the following way. Notice that the arrangement of the command and braces differs from above. 
+\begin{itemize}
+\item \verb|{\tiny far too small}| gives {\tiny far too small}
+\item \verb|{\normalsize standard text}| gives {\normalsize standard text}
+\item \verb|{\Huge far too big}| gives {\Huge far too big}
+\end{itemize}
+See \cite[\mbox{Fonts\#Font\_styles}]{web:wikibook} for a full list of available sizes. There are not many occasions for manually changing the size of text. For example, section headings are bigger than body text and footnotes are smaller.
+
+Different \emph{colours}\index{colour|(} can be used in a \LaTeX\ document. However, in general, there are better methods of emphasis since you cannot guarantee that your document will be read in colour. To use colour in \LaTeX\ load the \texttt{xcolor}\index{packages!\texttt{xcolor}} package. Then the \verb|\textcolor| command can be used to provide coloured text. For example, \verb|\textcolor{red}{cats}| will give \textcolor{red}{cats} [``cats'' is in red]. The first argument of \verb|\textcolor| specifies the colour and the second argument is the text to be coloured. There are several ways of specifying a colour. Many basic colours are available by name (such as \texttt{red} in this example), and more colours can be called in this way by loading the \texttt{xcolor} package with the optional argument \texttt{dvipsnames}. Alternatively, specific colours can be defined in the preamble, according to a choice of colour models, then used later in the document. For more information see \cite[Colors]{web:wikibook}.\index{colour|)}\index{formatting|)}
+
+
+\subsection{Sections and cross-referencing} \label{ssec:how_references}
+To begin a new \emph{section}\index{sections|(} of a document entitled ``Proof of the Riemann Hypothesis'', include the line \verb|\section{Proof of the Riemann Hypothesis}|. Sections are automatically numbered\index{numbering}. To create an unnumbered section use the command \verb|\section*|. Sections can have subsections and subsections can have subsubsections. These are included using the \verb|\subsection| and \verb|\subsubsection| commands, and these are numbered according to the section (and subsection, if appropriate) they are contained in. For example, observe the numbering in this document.
+
+To include a \emph{table of contents}\index{table of contents} include the command \verb|\tableofcontents| in the appropriate place in the document. Yes, it is that easy!
+
+\LaTeX\ makes light work of labelling\index{cross-references|(textbf} components of the document and referring back to them. To label a section, a figure or a table (see Section~\ref{ssec:how_floats}), or theorem (see Section~\ref{sssec:how_env_math}) use the command \verb|\label|. For example \verb|\section{Cats} \label{sec:cats}| creates a section entitled ``Cats'', then gives that section the label \texttt{sec:cats}. Labelling a section does not print anything in the document; rather, it gives the section an internal name to allow us to refer to it later. To refer back to this section use the command \verb|\ref|. For example, \verb|Section~\ref{sec:cats}| gives ``Section~6'', if the section on cats is the sixth section. If we later reorder our sections and the section on cats becomes the fourth section, then \verb|Section~\ref{sec:cats}| will update and change to ``Section~4''. (Observe that we use a non-breaking space\index{spacing!non-breaking} between ``Section'' and the number, see Section~\ref{sssec:gs_basics_spaces}.)\index{cross-references|)}\index{sections|)}
+
+\begin{lined}[Advanced]
+The \texttt{imakeidx} package allows you to make an \emph{index}\index{index}. First, include the command \verb|\makeindex| in the preamble, and include the command \verb|\printindex| where you wish the index to appear. Whenever you want a position in the document to be indexed use the command \verb|\index|. For example, \verb|\dots we study cats\index{cat} \dots| will produce an item in the index called ``cats'' and will give the page number where that except appears. Observe that the command \verb|\index| does not print anything in the main body of the document.
+
+You can create subentries in an index, ``see also'' entries, main entries and multiple page entries. You can also also format the index in many ways. For further details see \cite[Indexing]{web:wikibook}.
+
+Unless your \LaTeX\ compiler has been set up especially, an extra step is required at the compilation stage. Compile the document; this will produce a \texttt{.idx} file. Now run the \texttt{makeindex} on the \texttt{.idx} file to produce a \texttt{.igl} file. Compile the document again; the index will appear.
+\end{lined}
+
+
+\subsection{Environments} \label{ssec:how_env} \index{environments|(}
+\subsubsection{Lists} \label{sssec:how_env_lists}
+The \texttt{itemize}\index{environments!\texttt{itemize}} environment allows bulleted lists\index{lists|(}; for example:
+
+\begin{verbatim}
+\begin{itemize}
+\item First item
+\item[*] Second item
+\item Third item
+\end{itemize}
+\end{verbatim}
+
+\begin{itemize}
+\item First item
+\item[*] Second item
+\item Third item
+\end{itemize}
+
+Note that the \texttt{itemize} environment begins with \verb|\begin{itemize}| and ends with \verb|\end{itemize}|. This is the general pattern for an environment. Each item in the list is preceded by the command \verb|\item|. This is the general pattern for a list environment.
+
+In an \texttt{itemize} environment, by default, the symbol is a round black bullet, but the symbol for each of the items can be changed by using the optional argument of the \verb|\item| command.
+
+The \texttt{enumerate}\index{environments!\texttt{enumerate}} environment allows numbered lists. 
+
+\begin{verbatim}
+\begin{enumerate}
+\item First item
+\item Second item
+\item Third item
+\end{enumerate}
+\end{verbatim}
+
+\begin{enumerate}
+\item First item
+\item Second item
+\item Third item
+\end{enumerate}
+
+By default the numbering is in Arabic numerals, but the numbering system can be changed by using the optional argument of the \texttt{enumerate} environment (if the \texttt{enumitem}\index{packages!\texttt{enumitem}} package is loaded with the optional argument \verb|shortlabels|). The argument \verb|(i)| provides lower case roman numerals in brackets and \verb|A.| provides upper case letters followed by a full stop. See Section~6 of the \texttt{enumitem} package information for more details.\index{lists|)}
+
+
+\subsubsection{Mathematical environments} \label{sssec:how_env_math}
+One can easily construct environments for typesetting definitions, the statements of theorems\index{theorems|(}, proofs and much beyond.
+
+First, set up, in the preamble\index{preamble}, the environments which will be used. A typical setup is the following:
+
+\begin{verbatim}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem*{example*}{Example}
+
+\theoremstyle{plain}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+\end{verbatim}
+
+Before explaining how this setup works, observe that we can now include, for example, a definition, lemma and example as follows by using the now-available \texttt{definition}, \texttt{lemma} and \texttt{example*} environments.
+
+\begin{verbatim}
+\begin{definition}
+A positive integer is \emph{prime} if it has no proper non-trivial divisors.
+\end{definition}
+
+\begin{lemma}
+Every positive integer is a product of primes.
+\end{lemma}
+
+\begin{example*}
+$60 = 2^2 \cdot 3 \cdot 5$
+\end{example*}
+\end{verbatim}
+
+\begin{definition}
+A positive integer is \emph{prime} if it has no proper non-trivial divisors.
+\end{definition}
+
+\begin{lemma}
+Every positive integer is a product of primes.
+\end{lemma}
+
+\begin{example*}
+$60 = 2^2 \cdot 3 \cdot 5$
+\end{example*}
+
+Note that the text in the body of the definition and example are in upright font whereas the lemma is italicised. This is a consequence of the \texttt{definition} and \texttt{example*} environments being defined after the line \verb|\theoremstyle{definition}| was called and \texttt{lemma} after \verb|\theoremestyle{theorem}|.
+
+Note that the definition and lemma are numbered as the section number then a full stop and then the result within that section. This is because the \texttt{definition} environment was defined to be numbered according to the section (this explains the optional argument \verb|[section]| in the definition of the \texttt{definition} environment), and the \texttt{lemma} environment was defined to be numbered in the same way as the \texttt{definition} environment (this explains the optional argument \verb|[definition]| in the definition of the \texttt{lemma} environment). As with sections, mathematical environments can be labelled and referred to later (see Section~\ref{ssec:how_references})\index{cross-references}.
+
+Note that the example is not numbered. This is because the \texttt{example*} environment was defined using the \verb|\newtheorem*| command, which creates unnumbered theoremlike environments. 
+
+For more information on creating theoremlike environments see \cite[Theorems]{web:wikibook}.
+
+\begin{lined}[Typesetting tip]
+If you begin a theorem (or a similar environment) with a list (such as \texttt{itemize})\index{itemize}, then the first item will be placed on the same line as the theorem heading. However, this is not particularly attractive. To force the items to begin on the following line, insert \verb|\quad| after the \verb|\begin{theorem}| line. For example, this code
+\begin{verbatim}
+\begin{theorem*} \quad 
+\begin{enumerate}[(i)]
+\item $0+0=0$
+\item $1\cdot1=1$
+\end{enumerate}
+\end{theorem*}
+\end{verbatim}
+produces
+\begin{theorem*} \quad 
+\begin{enumerate}[(i)]
+\item $0+0=0$
+\item $1\cdot1=1$
+\end{enumerate}
+\end{theorem*}
+\end{lined}
+
+The \texttt{proof} environment provides an environment which begins with the word proof and ends with a QED square; for example:
+
+\begin{verbatim}
+\begin{proof}
+$1+1=2$.
+\end{proof}
+\end{verbatim}
+
+\begin{proof}
+$1+1=2$.
+\end{proof}
+
+The optional argument of the \texttt{proof} environment allows the introduction to be something other than ``Proof.''; for example:
+
+\begin{verbatim}
+\begin{proof}[Proof of Fermat's Last Theorem]
+I have discovered a truly marvelous proof of this,
+which this margin is too narrow to contain.
+\end{proof}
+\end{verbatim}
+
+\begin{proof}[Proof of Fermat's Last Theorem]
+I have discovered a truly marvelous proof of this, which this margin is too narrow to contain.
+\end{proof}
+\index{theorems|)}
+\index{environments|)}
+
+
+\subsection{Macros} \label{ssec:how_macros}
+To avoid repeatedly typing the same commands\index{commands} to include symbols or format text, you can create \emph{macros}\index{macros}. Macros are written in the preamble and apply to the entire document. To create a macro use the \verb|\newcommand| command which takes two arguments: the name of the command and the definition of the command. 
+
+For example, if the macro
+\begin{verbatim}
+\newcommand{\atlas}{\textsc{Atlas}}
+\end{verbatim}
+is included in preamble, then throughout the document the command \verb|\atlas| produces the \textsc{Atlas}.
+
+Macros can also take arguments. Here \verb|\newcommand| takes an optional argument between the name and the definition which is the number of arguments the new command will have. Then each of these arguments are referred to as \verb|#1|, \verb|#2|, etc.\ in the definition. For example,
+\begin{verbatim}
+\newcommand{\bi}[1]{\textbf{\textit{{#1}}}
+\end{verbatim}
+creates a command which takes one argument and returns that argument in bold italics. For example, throughout the document, \verb|\bi{group theory}| will produce \textbf{\textit{group theory}}.
+
+One cannot create a new command called \verb|\cats| using \verb|\newcommand| if there is already a command called \verb|\cats|. In this case, one should use the command \verb|\renewcommand|, whose syntax is otherwise the same as \verb|\newcommand|. However, one should be very careful not to overwrite commands which are already being made use of in the document.
+
+
+\subsection{Mathematics} \label{ssec:math}
+\subsubsection{Basic input} \label{ssec:math_basics}
+Normal writing, as we have discussed so far, is carried out in \emph{text mode}\index{text mode}. To include mathematical notation, use \emph{math mode}\index{math mode}. There are two ways to enter math mode, which lead to two different styles of presentation: \emph{inline}\index{inline|textbf} and \emph{display}\index{display|textbf}. For inline math mode surround the expressions by \verb|$| and \verb|$|, and for display math mode surround the expressions by \verb|\[| and \verb|\]|. For example, \verb|$z$| gives $z$ inline whereas \verb|\[ y = ax+b \]| gives \[ y = ax+b \] displayed. Notice that letters, numbers and keyboard symbols work as expected in math mode.
+
+\begin{lined}[Advanced]
+The old \TeX\ mechanism for including maths inline was \verb|$|\,\dots\verb|$| and for display was \verb|$$|\,\dots\verb|$$|. The \LaTeX\ mechanism for inline is \verb|\(|\,\dots\verb|\)| and for display is \verb|\[|\,\dots\verb|\]|. There are problems associated with using \verb|$$|\,\dots\verb|$$| for display mathematics, but many people still use \verb|$|\,\dots\verb|$| for inline mathematics.
+\end{lined}
+
+Use \verb|\sqrt| to write roots. For example, \verb|$\sqrt{9}=3$| gives $\sqrt{9}=3$ and \verb|$\sqrt[3]{9-1}=2$| gives $\sqrt[3]{9-1}=2$. Use \verb|\frac| for fractions. For example, \verb|\[ \frac{1 + \sqrt{5}}{2} \]| gives \[ \frac{1 + \sqrt{5}}{2} \] and \verb|$\frac{1}{2} = 0.5$| gives $\frac{1}{2} = 0.5$. Use \verb|\binom| for binomial coefficients. For example, 
+\begin{verbatim}
+\[ \binom{n}{k} = \binom{n}{n-k} \]
+\end{verbatim}
+gives \[ \binom{n}{k} = \binom{n}{n-k} \]
+
+\begin{lined}[Advanced] 
+Notice the size of \verb|\frac{a}{b}| differs between inline maths\index{inline} and display maths\index{display}. To provide a display maths sized fraction in inline maths (or in display maths) use \verb|\dfrac{a}{b}|, and for an inline maths sized fraction use \verb|\tfrac{a}{b}|. For example, here is the inline and display output for \verb|\frac|, \verb|\tfrac| and \verb|\dfrac|: $\frac{1}{2}, \tfrac{1}{2}, \dfrac{1}{2}$ and \[ \frac{1}{2}, \tfrac{1}{2}, \dfrac{1}{2}.\]
+\end{lined}
+
+Use \verb|^| to insert \emph{superscripts}\index{superscripts} and \verb|_| for \emph{subscripts}\index{subscripts}. For example, \verb|$x_n=n^2$| gives $x_n=n^2$. To include longer expressions in a superscript or subscript, enclose the expression in braces \verb|{|\,\dots\verb|}|. For example, \verb|$y_{ij}=2x^{10}$| gives $y_{ij}=2x^{10}$.
+
+\begin{lined}[Advanced] 
+There may be occasion for superscripts and subscripts to the \emph{left} of the main letter. The makeshift way to achieve this is as follows: $_GM$ written as \verb|$_GM$|. However, if the presuperscript or presubscript follows another symbol one must include empty braces first to avoid the superscript attaching itself to the previous symbol; compare the correct result $G={}^2F_4$ of \verb|$G={}^2F_4$| with the incorrect result $G=^2F_4$ of \verb|$G=^2F_4$|. 
+
+This issue can be avoided by, instead, using the \verb|\prescript| command from the \texttt{mathtools}\index{packages!\texttt{mathtools}} package. This bespoke method has the added advantage of ensuring the prescripts are arranged appropriately around the main symbol. Here \verb|\prescript{a}{b}{X}| gives $\prescript{a}{b}{X}$ and can be used to write expressions like the following \[ \prescript{A}{Z}{X} \to \prescript{A-4}{Z-2}{Y} + \prescript{4}{2}{\alpha}. \]
+\end{lined}
+
+To include some text in math mode, use the \verb|\text| command. For example,
+\begin{verbatim}
+$\{ n^2 \mid n \ \text{is odd} \}$
+\end{verbatim}
+gives $\{ n^2 \mid n \ \text{is odd} \}$. Observe that a manual space\index{spacing!math mode} using \verb|\| was inserted before the \verb|\text| command since all space around text in math mode is gobbled\index{spacing!gobble}.
+
+To display\index{display|(} a \emph{numbered equation}\index{numbering}, use the \texttt{equation}\index{environments!\texttt{equation}} environment rather than using display math mode. As with sections, equations can be labelled then referred to later, see Section~\ref{ssec:how_references}\index{cross-references}. When an equation is referred to use the command \verb|\eqref|, rather than \verb|\ref|, to ensure that the reference is enclosed in brackets. For example:
+
+\begin{verbatim}
+\begin{equation} \label{eq:euler}
+1^{i+\pi} = e^{0}
+\end{equation}
+
+By Euler's equation \eqref{eq:euler}, \dots
+\end{verbatim}
+
+\begin{equation} \label{eq:euler}
+1^{i+\pi} = e^{0}
+\end{equation}
+
+By Euler's equation \eqref{eq:euler}, \dots
+
+To label an equation by a symbol rather than a number, use the \verb|\tag| command. For example:
+
+\begin{verbatim}
+\begin{equation} \label{eq:fermat}
+3987^{12} + 4365^{12} = 4472^{12} \tag{$\dagger$}
+\end{equation}
+
+By Homer's theorem \eqref{eq:fermat}, \dots
+\end{verbatim}
+
+\begin{equation} \label{eq:fermat}
+3987^{12} + 4365^{12} = 4472^{12} \tag{$\dagger$}
+\end{equation}
+
+By Homer's theorem \eqref{eq:fermat}, \dots
+
+To print a series of displayed equations which are \emph{aligned} at the equals sign (or similar), use the \texttt{align}\index{environments!\texttt{align}} environment. Each row is ended with \verb|\\|, and on each row \verb|&| is placed to indicate where the equations should align. For example:
+
+\begin{verbatim}
+\begin{align}
+\int \sec x \, dx &= \int \frac{\sec x(\sec x + \tan x)}{\tan x + \sec x}\,dx \\
+&= \int \frac{(\sec x)^2 + \sec x \tan x}{\tan x + \sec x}\,dx \label{eq:ex} \\
+&= \log|\tan x + \sec x| + C
+\end{align}
+\end{verbatim} 
+
+\begin{align}
+\int \sec x \, dx &= \int \frac{\sec x(\sec x + \tan x)}{\tan x + \sec x}\,dx \\
+&= \int \frac{(\sec x)^2 + \sec x \tan x}{\tan x + \sec x}\,dx \label{eq:ex} \\
+&= \log|\tan x + \sec x| + C
+\end{align}  
+
+By default, the lines in an \texttt{align} environment are numbered. Use the \texttt{align*} environment to omit the numbering. As with the \texttt{equation} environment, a row can be labelled to be referred to later.
+
+\begin{lined}[Typesetting tip]
+If a proof ends at the end of an \texttt{align} environment then the QED square will not appear on the final line of this environment but on the next blank line. This is not appealing. Therefore, in this case, one should place the command \verb|\qedhere| within the \texttt{align} environment at the end of the proof to ensure that the QED square appears on the correct line. We present an example of this.
+
+\begin{verbatim}
+\begin{proof}
+Let $x, y \in k$. For all $1 \leq i \leq p$ the binomial coefficient 
+$\binom{p}{i}$ is divisible by $p$. Therefore,
+
+\begin{align*}
+(x+y)^p &= \sum_{i=0}^{p}\binom{p}{i}x^iy^{p-i} \\
+        &= x^p + y^p. \qedhere
+\end{align*}
+
+\end{proof}
+\end{verbatim}
+
+\begin{proof}
+Let $x, y \in k$. For all $1 \leq i \leq p$ the binomial coefficient $\binom{p}{i}$ is divisible by $p$. Therefore,
+\begin{align*}
+(x+y)^p &= \sum_{i=0}^{p}\binom{p}{i}x^iy^{p-i} \\
+        &= x^p + y^p. \qedhere
+\end{align*}
+\end{proof}
+\end{lined}
+
+\begin{lined}[Advanced]
+On occasions one might want to number just one line of an aligned display. This can be done in an \texttt{align*} environment, by using the \verb|\tag| command together with a manual manipulation of the \LaTeX\ numbering system. We present an example of this without explanation. See \cite[Counters]{web:wikibook} for more information on numbering and \LaTeX\ counters. 
+
+\begin{verbatim}
+\begin{align*}
+g^{-1}hg &= ghg \\
+         &= ghghh \stepcounter{equation}\tag{\theequation}\label{eq:trick} \\
+         &= h
+\end{align*}
+\end{verbatim}
+
+\begin{align*}
+g^{-1}hg &= ghg \\
+         &= ghghh \stepcounter{equation}\tag{\theequation}\label{eq:trick} \\
+         &= h
+\end{align*}
+\end{lined}
+\index{display|)}
+
+
+\subsubsection{Common symbols} \label{ssec:math_symbols}
+Writing mathematics requires many more symbols than those available on the keyboard. These can be included with special commands in math mode. For example \verb|\gamma| and \verb|\Gamma| give $\gamma$ and $\Gamma$. All Greek upper and lower case letters can be provided in this way; however, if an upper upper case Greek letter matches an upper case Latin letter, then the command for the Greek letter is not defined (e.g.\ \verb|\Alpha| is not defined since upper case alpha is identical to the Latin A).\@ For some Greek letters there are optional variants. For example I prefer $\varepsilon$ and $\varphi$ provided by \verb|\varepsilon| and \verb|\varphi| over the default $\epsilon$ and $\phi$ provided by \verb|\epsilon| and \verb|\phi|.
+
+Standard \emph{mathematical symbols}\index{symbols!mathematical} can be inserted in a similar way. (More obscure symbols may require extra packages to be loaded.) For example:
+
+\begin{verbatim}
+\[ |x-a| \leq \delta \implies |f(x)-f(a)| \leq \varepsilon \]
+\end{verbatim}
+
+\[ |x-a| \leq \delta \implies |f(x)-f(a)| \leq \varepsilon \]
+
+The negation of a symbol can (usually) by achieved by preceding the symbol by \verb|\not|. For example, \verb|\not\in| gives $\not\in$. If you cannot guess the command for your required symbol, then you can use the Detexify app \cite{web:detexify} or consult \emph{The Comprehensive \LaTeX\ Symbol List} \cite{ref:comp_list}.
+
+Big mathematical symbols -- for example for integrals, sums, products, unions, intersections -- take the form \verb|\symbol_{lower}^{upper}| and these commands require a value for their lower and upper bounds (even if you wish for one of these to be empty). For example, \verb|$\bigcup_{i \in I}^{} U_i$| gives $\bigcup_{i \in I}^{} U_i$ and 
+\begin{verbatim}
+\[ \sum_{n=1}^{\infty}\frac{\pi^2}{6}\]
+\end{verbatim}
+gives \[ \sum_{n=1}^{\infty}\frac{\pi^2}{6}\] Note the difference between display\index{display} and inline\index{inline}. For more see \cite[\mbox{Mathematics\#Sums\_and\_integrals}]{web:wikibook}.
+
+\begin{lined}[Advanced] 
+To include multiple lines of text under a large operator, use the \verb|\substack| command. For example, \verb|\[ \sum_{\substack{i=0 \\ i \not\in A}}^{n} i^2 \]| gives \[ \sum_{\substack{i=0 \\ i \not\in A}}^{n} i^2 \]
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+When defining a function use the correct arrows and colon. The expression
+\begin{verbatim}
+\[ f \colon \mathbb{R} \to \mathbb{R} \quad x \mapsto x^2 \]
+\end{verbatim}
+\[ f \colon \mathbb{R} \to \mathbb{R} \quad x \mapsto x^2 \]
+should be typeset using the command \verb|\to| for the arrow $\to$ between sets and the command \verb|\mapsto| for the arrow $\mapsto$ defining how the function acts on elements. In addition, the colon between the function name and the first set should be given using \verb|\colon| and not \verb|:| since the latter will provide the incorrect space\index{spacing!math mode} around the colon.
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+When writing a set using set-builder notation be sure to use the correct commands for the colon (use \verb|:| and not \verb|\colon|) or pipe (use \verb|\mid| and not \verb|\div|). (Whether one uses a colon or a pipe is a matter of personal taste.) For example, both of the following sets are correctly typeset: 
+\begin{verbatim}
+\[ \{ x \in \mathbb{R} \mid x^2 > 2 \} \]
+\end{verbatim}
+\[ \{ x \in \mathbb{R} \mid x^2 > 2 \} \] 
+\begin{verbatim}
+\[ \{ x \in X : xg=x \text{ for all } g \in G \} \]
+\end{verbatim}
+\[ \{ x \in X : xg=x \text{ for all } g \in G \} \]
+\end{lined}
+
+Some mathematical symbols such as $\mathbb{R}$ are simply letters in a particular style. There are several commands to provide these styles in math mode. For example:
+\begin{itemize}
+\item roman maths given by \verb|\mathrm| allows the algebraic group $\mathrm{GL}_n$
+\item fraktur maths given by \verb|\mathfrak| allows the Lie algebra $\mathfrak{gl}_n$
+\end{itemize}
+and for upper case letters:
+\begin{itemize}
+\item blackboard maths given by \verb|\mathbb| allows the real numbers $\mathbb{R}$
+\item calligraphic maths given by \verb|\mathcal| allows the power set $\mathcal{P}$
+\item script maths given by \verb|\mathscr| allows an alternative for the power set $\mathscr{P}$. (The command \verb|\mathscr| requires the \texttt{mathrsfs}\index{packages!\texttt{mathrsfs}} package.)
+\end{itemize}
+
+The text mode commands \verb|\textsf| and \verb|\texttt| which provide sans serif and typewriter fonts have analogues in math mode: \verb|\mathsf| and \verb|\mathtt|.
+
+
+\subsubsection{Brackets and arrays} \label{ssec:math_brackets_arrays}
+There are many types of \emph{brackets}\index{brackets} used in mathematics:
+\begin{itemize}
+\item standard brackets given by \verb|(|\,\dots\verb|)| allow the expression $(x+y)^2$
+\item square brackets given by \verb|[|\,\dots\verb|]| allow the interval $[0,1]$
+\item braces (or curly brackets) given by \verb|\{|\,\dots\verb|\}| allow the set $\{0, 1, 2, \dots\}$
+\item angled brackets given by \verb|\langle|\,\dots\verb|\rangle| allow inner products $\langle v,w \rangle$
+\item single bars given by \verb+|+\,\dots\verb+|+ allow the absolute value $|x-y|$
+\item double bars given by \verb+\|+\,\dots\verb+\|+ allow norms $\|f\|$
+\item floor and ceiling given by \verb|\lfloor|\,\dots\verb|\rfloor| and \verb|\lceil|\,\dots\verb|\rceil| allow $\lfloor x \rfloor$ and $\lceil y \rceil$
+\end{itemize} 
+
+When enclosing a taller expression in brackets preface the left bracket by \verb|\left| and the right bracket \verb|\right|. For example:
+\begin{verbatim}
+\[ \left| \frac{x}{y}-\frac{1}{2} \right| \leq \frac{|x|}{|y|}+\frac{1}{2}. \]
+\end{verbatim}
+\[ \left| \frac{x}{y}-\frac{1}{2} \right| \leq \frac{|x|}{|y|}+\frac{1}{2}. \]
+
+\begin{lined}[Typesetting tip]
+When using using square brackets to denote an interval as part of a longer expression, enclose the entire interval in braces to ensure the spacing\index{spacing!math mode} is correct. Moreover, if the lower bound in a closed interval is negative then enclose the negative number in braces. For example \verb|x \in [-\pi, \pi]| gives $x \in {[{-\pi},\pi]}$ whereas \verb|x \in {[{-\pi}, \pi]}| gives $x \in [-\pi, \pi]$ \dots yes, I promise the spacing is different!
+\end{lined}
+
+The \texttt{array}\index{environments!\texttt{array}|(} environment is a very useful one: it allows us to write matrices, vectors, two-line permutations, case definitions, tables and much beyond. We begin with an example of a matrix where we produce an array and enclose it in the appropriate brackets:
+\begin{verbatim}
+\[
+A = \left(
+\begin{array}{rl}
+\cos\theta  & \sin\theta \\
+-\sin\theta & \cos\theta \\
+\end{array}
+\right)
+\]
+\end{verbatim}
+\[
+A = \left(
+\begin{array}{rl}
+\cos\theta  & \sin\theta \\
+-\sin\theta & \cos\theta \\
+\end{array}
+\right)
+\]
+The \texttt{array} environment takes one argument which can be a string of letters \texttt{c}, \texttt{l}, \texttt{r}, one for each column. The text in each column will be justified depending on this letter: \texttt{c} for centred, \texttt{l} for left aligned and \texttt{r} for right aligned. We write the entries of the matrix reading along the rows, separating entries by \verb|&| and rows by \verb|\\|.
+
+We now give an example of a case definition: 
+
+\begin{verbatim}
+\[
+\delta_{ij} = \left\{
+\begin{array}{ll}
+1 & \text{if $i=j$} \\
+0 & \text{if $i \neq j$} \\
+\end{array}
+\right.
+\]
+\end{verbatim}
+\[
+\delta_{ij} = \left\{
+\begin{array}{ll}
+1 & \text{if $i=j$} \\
+0 & \text{if $i \neq j$} \\
+\end{array}
+\right.
+\]
+Although we do not need to close the brace in this example (that is, there is a left \verb|\{| but no right \verb|\}|), \LaTeX\ insists that we still match the \verb|\left| with a \verb|\right|. For this reason we include the \emph{empty delimiter} \verb|\right.| which does not print anything but handles the \LaTeX\ bookkeeping.
+
+Now we turn to tables. Vertical lines are achieved by inserting a pipe \verb+|+ between the columns in the argument, and horizontal lines are achieved by inserting \verb|\hline| between the rows. Here is an example of a multiplication table\index{tables|(}:
+
+\begin{verbatim}
+\[
+\begin{array}{c|cccc}
+  & e & a & b & c \\
+\hline
+e & e & a & b & c \\
+a & a & e & c & b \\
+b & b & c & e & a \\
+c & c & b & a & e \\
+\end{array}
+\]
+\end{verbatim}
+\[
+\begin{array}{c|cccc}
+  & e & a & b & c \\
+\hline
+e & e & a & b & c \\
+a & a & e & c & b \\
+b & b & c & e & a \\
+c & c & b & a & e \\
+\end{array}
+\]
+
+and here is an example of a standard table:
+
+\begin{verbatim}
+\[
+\begin{array}{ccc}
+\hline
+x                   & |x^G| & C_G(x)                                         \\
+\hline
+\mathrm{id}         &  1    & G                                              \\
+(1\, 2)(3\, 4)      & 15    & \langle (1\, 2)(3\, 4), (1\, 3)(2\, 4) \rangle \\  
+(1\, 2\, 3)         & 20    & \langle (1\, 2\, 3) \rangle                    \\
+(1\, 2\, 3\, 4\, 5) & 12    & \langle (1\, 2\, 3\, 4\, 5) \rangle            \\
+(1\, 2\, 3\, 5\, 4) & 12    & \langle (1\, 2\, 3\, 5\, 4) \rangle            \\
+\hline
+\end{array}
+\]
+\end{verbatim}
+\[
+\begin{array}{ccc}
+\hline
+x                   & |x^G| & C_G(x)                                         \\
+\hline
+\mathrm{id}         &  1    & G                                              \\
+(1\, 2)(3\, 4)      & 15    & \langle (1\, 2)(3\, 4), (1\, 3)(2\, 4) \rangle \\  
+(1\, 2\, 3)         & 20    & \langle (1\, 2\, 3) \rangle                    \\
+(1\, 2\, 3\, 4\, 5) & 12    & \langle (1\, 2\, 3\, 4\, 5) \rangle            \\
+(1\, 2\, 3\, 5\, 4) & 12    & \langle (1\, 2\, 3\, 5\, 4) \rangle            \\
+\hline
+\end{array}
+\]
+
+To include tables in text mode rather than math mode, use the \texttt{tabular}\index{environments!\texttt{tabular}} environment instead of \texttt{array}. The above guidance is valid for the \texttt{tabular} environment (see Table~\ref{tab:collective}).
+
+\begin{lined}[Advanced] 
+There are many further packages designed specifically for typesetting tables. For example, the \texttt{array} package allows formatting of columns, \texttt{booktabs}\index{packages!\texttt{booktabs}} allows one to produce very attractive tables with appropriate vertical spacing and variable line widths, \texttt{tabularx}\index{packages!\texttt{tabularx}} automatically adjusts column widths and \texttt{longtable}\index{packages!\texttt{longtable}} allows tables which span more than one page. (See Table~\ref{tab:collective} for an example using \texttt{booktabs}\index{packages!\texttt{booktabs}} for variable line thickness.)
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+Avoid vertical lines in tables and minimise the number of horizontal lines.
+\end{lined}
+\index{tables|)}
+\index{environments!\texttt{array}|)}
+
+
+\subsubsection{Dots and spacing} \label{ssec:math_dots_spacing}
+\emph{Ellipsis}, three dots with appropriate spacing, is used to indicate omitted items. In text mode \verb|\dots| provided the standard ellipsis \dots but in math mode there are some subtleties. In some contexts the dots should be on the base line (for example, when the items are separated by commas or are the missing digits of a number), but in other contexts the dots should be raised (for example, when the items are separated by addition signs or are part of a product).
+
+The command \verb|\ldots| provides the lower dots $\ldots$ and \verb|\cdots| provides the raised dots $\cdots$. The command \verb|\dots| tries to guess which of \verb|\ldots| and \verb|\cdots| is appropriate; this will \emph{not} always be correct. (In general, \verb|\dots| will correctly provide \verb|\cdots| when followed by a binary relation, but in the cases where \verb|\cdots| are desired to indicate a product or concatenation \verb|\cdots| will need be used explicitly.) For example:
+
+\begin{verbatim}
+\[ 1, 1, 2, 5, 8, \dots \quad 1 + 8 + 27 + \dots + n^3 \quad \pi = 3.14159\dots 
+\quad 1 \cdot 2 \cdot 3 \cdots 9 = 362880 \quad x = x_1 x_2 \cdots x_k \]
+\end{verbatim} 
+
+\[ 1, 1, 2, 5, 8, \dots \quad 1 + 8 + 27 + \dots + n^3 \quad \pi = 3.14159\dots \quad 1 \cdot 2 \cdot 3 \cdots 9 = 362880 \quad x = x_1 x_2 \cdots x_k \]
+
+There are contexts when vertical or diagonal dots are required. One can use \verb|\vdots|, \verb|\ddots| and (with the \texttt{mathdots} package) \verb|\iddots|. This is particularly useful in matrices:
+\begin{verbatim}
+\[ 
+A =  
+\left(
+\begin{array}{cccc}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{array}
+\right)
+\]
+\end{verbatim}
+\[ 
+A =  
+\left(
+\begin{array}{cccc}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{array}
+\right)
+\]
+
+In general, \LaTeX\ does \emph{spacing}\index{spacing!math mode|(textbf} very well. However, there can be occasions where one needs to manually add space in math mode. \LaTeX\ ignores any typed spaces in math mode, so the following commands are useful for inserting and removing horizontal space. Here we use the unit $\mathrm{mu}$ which is equal to $\frac{1}{18} \, \mathrm{em}$. In turn, the unit $\mathrm{em}$ was historically equal to the width of a letter M in the font being used but is now usually set at the current font size (see \cite[Lengths]{web:wikibook}). 
+\begin{itemize}
+\item \verb|\| provides a $6 \, \mathrm{mu}$ space, which is a roughly normal space in text mode
+\item \verb|\;| provides a $5 \, \mathrm{mu}$ space
+\item \verb|\:| provides a $4 \, \mathrm{mu}$ space
+\item \verb|\,| provides a $3 \, \mathrm{mu}$ space, which is a \emph{thin space}
+\item \verb|\,| provides a \emph{negative} $3 \, \mathrm{mu}$ space
+\item \verb|\quad| provides a $1 \, \mathrm{em}$ space
+\item \verb|\qquad| provides a $2 \, \mathrm{em}$ space
+\end{itemize}
+
+\begin{lined}[Typesetting tip]
+There are several important uses of the the thin space provided by \verb|\,|.
+\begin{itemize}
+\item When typesetting units, be sure to insert a thin space between the number and the unit; for example \verb|$3 \, \mathrm{mu}$| gives $3 \, \mathrm{mu}$. (If units will be used frequently then the one should use a bespoke units package such as \texttt{siunitx}\index{packages!\texttt{siunitx}}.)
+\item When writing permutations in cycle notation, if one leaves spaces between the points rather commas then use a thin space; for example \verb|$(1 \, 2)(3 \, 4 \, 5)$| gives $(1 \, 2)(3 \, 4 \, 5)$. 
+\item Insert a thin space between the product of two factorials. For example:
+\begin{verbatim}
+\[ \binom{n}{k} = \frac{n!}{(n-k)!\,k!}. \]
+\end{verbatim} 
+\[ \binom{n}{k} = \frac{n!}{(n-k)!\,k!}. \]
+\end{itemize}
+\end{lined}
+\index{spacing!math mode|)}
+
+
+\subsection{Images, floats and captions} \label{ssec:how_floats}
+To insert an \emph{image}\index{images} into a \LaTeX\ file, save the image file in the same folder as your \texttt{.tex} file and ensure that the image is a \texttt{.png}, \texttt{.jpg} or \texttt{.pdf} file. If the image is named \texttt{fish.png}, then the command \verb|\includegraphics{fish.jpg}| (from the \texttt{graphicx}\index{packages!\texttt{graphicx}} package) will insert the image at the corresponding place in the document. 
+
+By default, the image will be included at its original size. The command \verb|\includegraphics| has optional arguments which allow you to adjust the size. To specify the width of the image, use the argument \verb|width=?| (where \texttt{?} is the desired width) and for height use \verb|height=?|. If only one of the width and height are specified, then the aspect ratio will be maintained from the original image (this is generally recommended). The dimensions can be specified in any of the units \LaTeX\ understands (for example, pt, cm, in, ex, em, see \cite[Lengths]{web:wikibook}), but \verb|\textwidth|, which is set to be the width of the text in the document, is often very useful in this case. For example, the following image is centered, is a quarter of the text width and has the same aspect ratio as the original image.
+
+\begin{center}
+\includegraphics[width=0.25\textwidth]{fish.jpg}
+\end{center}
+
+Often one does not wish images to appear in a particular position on the page but rather somewhere nearby in the document which ensures that it fits on one page and does not interrupt the flow of the document too much. \LaTeX\ has a way of doing exactly this: \emph{floats}\index{floats}. By enclosing an image in a \texttt{figure}\index{environments!\texttt{figure}|(} environment the image will appear at an appropriate place nearby in the document, according to \LaTeX's\ internal principles. This is a great example of \LaTeX\ separating content (you inserting the figure) and appearance (\LaTeX\ deciding the best place to put it).
+
+Often one wants to float tables as well as images. This is achieved by using the \texttt{table} environment, which is analogous to the \texttt{figure} environment introduced above. \index{environments!\texttt{figure}|)}
+
+\begin{lined}[Advanced] 
+The \texttt{figure} (and \texttt{table}) environment take an optional argument to allow one to have some say over where \LaTeX\ decides to place the figure: \texttt{t} and \texttt{b} encourage \LaTeX\ to place the figure at the top or bottom a page; \texttt{p} encourages the figures to be placed on a page dedicated to figures (and tables); \texttt{h} explains that, after all, you would actually quite like the figure to be where you placed it in the file; and \texttt{H} (which requires the \texttt{float}\index{packages!\texttt{float}} package) explains, in no uncertain terms, that you really want the figure where you placed it in the file. In all cases, following the argument by \texttt{!} attempts to make your opinion override \LaTeX's.
+\end{lined}
+
+It is useful to \emph{caption}\index{captions|(} floating figures and tables. This can be done by placing the \verb|\caption| command above or below the image or table \emph{inside} the float environment as shown in Table~\ref{tab:collective}.
+
+\begin{table}
+\centering
+\begin{tabular}{cc}
+\toprule[1pt]
+animal & collective noun \\
+\midrule
+baboon & troop \\
+eagle  & convocation \\
+hippo  & bloat \\
+owl    & parliament \\
+rhino  & crash \\
+wombat & wisdom \\
+\bottomrule[1pt]
+\end{tabular}
+\caption{Some collective nouns.}\label{tab:collective}
+\end{table}
+
+\begin{lined}[Advanced]  
+If the caption is placed above (or below) the image or table in the float environment, then the caption will appear above (or below, respectively) the image or table. The standard typesetting convention is that captions be placed below figures but above tables. However, the default \LaTeX\ spacing\index{spacing!captions} around floats and captions anticipates that caption the will be placed below all floats. To customise the caption spacing -- in addition to various other caption parameters such as font, style and justification -- use the \texttt{caption}\index{packages!\texttt{caption}} package. In particular, to adjust the spacing around captions to suit the standard convention, load the \texttt{caption} package with the optional arguments \verb|[tableposition=top, figureposition=bottom]|.
+\end{lined}
+\index{captions|)}
+
+
+\subsection{Citations} \label{ssec:how_citations}
+As with cross-referencing, \emph{citations}\index{citations} are something which could potentially be difficult but which \LaTeX\ makes very easy. Citing documents comes in two parts. First, at the end of the document, one must create a list of all of the references which are referred to in the document with an identifier (for mathematical documents this is usually just a number) associated to each one. Second, one must include a marker in the text whenever you want to cite a reference in the list. 
+
+The reference list can be produced in one of two ways: manually or automatically. To manually produce a reference list, create a \texttt{thebibliography} environment wherever you wish the list of references to appear (this will typically be at the end of the document just before \verb|\end{document}|). This environment has one argument which tells \LaTeX\ how long the identifying number might be for each reference. Unless you plan to have at least 100 references, make this argument \verb|99|. Then, for each reference, include something of the following form:
+
+\begin{verbatim}
+\bibitem{ref:wilson_09} R. A. Wilson, \textit{The Finite Simple Groups}, 
+Graduate Texts in Mathematics vol. 251, Springer, 2009.
+\end{verbatim}
+
+In this example, \verb|ref:wilson09| is the \emph{cite key}, which we use to refer to this reference when we cite it, and the details which follow are the bibliographic data of that reference. Note that the bibliographic data will appear exactly as written and the references will be listed in the order they are included in the file. 
+
+To create an inline citation of the above reference, simply include \verb|\cite{ref:wilson_09}| wherever you wish the citation to appear in the text; it appears as \cite{ref:wilson_09}. To refer to a particular result or section of a text, use the optional argument. For example, \verb|\cite[Theorem~2.4]{ref:wilson_09}| appears as \cite[Theorem~2.4]{ref:wilson_09}. To include several citations, include them in one instance of \verb|\cite{}|. For example, write \verb|\cite{ref:cameron_81,ref:wilson_09}| which gives \cite{ref:cameron_81,ref:wilson_09} rather than writing \verb|\cite{ref:cameron_81} \cite{ref:wilson_09}| which gives \cite{ref:cameron_81} \cite{ref:wilson_09}.
+
+\begin{lined}[Typesetting tip]
+There are many different referencing styles and there is not a complete consensus in mathematics. You should check the conventions of the relevant journal or university. However, the following points are worth bearing in mind.
+\begin{enumerate}[(i)]
+\item The style of the items on the reference list of this document is common. For example, see \cite{ref:wilson_09} for books, \cite{ref:cameron_81} for papers and \cite{ref:fulman_guralnick_97} for chapters.
+\item In mathematics journals, the inline marker for a citation is usually a number in square brackets as in this document. This is the default in \LaTeX.
+\item The standard ordering of references is: order alphabetically by the surname of the first author; to break ties, place single author papers before joint papers; to break ties on joint papers, pass to the second author, third author, \dots; to break further ties, order by date of publication; to break ties still, order alphabetically by the name of the work.
+\item Journal names are usually abbreviated in a reference list. For a list of the standard journal abbreviations, see \cite{web:ams_serials}.
+\end{enumerate}
+\end{lined}
+
+\begin{lined}[Advanced]
+\textsc{Bib}\TeX\ \index{\textsc{Bib}\TeX} provides a more automated way of producing reference lists. With this, one produces a separate \textsc{Bib}\TeX\ file, named say \texttt{references.bib}, which contains the bibliographic data, then includes the commands \verb|\bibliographystyle{plain}| and \verb|\bibliography{references.bib}| at the end of the main \LaTeX\ file. Inline markers are still included using the \verb|\cite|. To customise the style of the references, replace \texttt{plain} by an alternative style or a bespoke \texttt{.bst} file. There are style files for most major referencing styles. There are also programs for producing a \texttt{.bst} file based on particular preferences. Alternatively, one can write one's own in reverse Polish notation. For more, see \cite[Bibliography\_Management]{web:wikibook}. 
+\end{lined}
+
+
+\subsection{Page layout and paragraphing} \label{ssec:how_layout}
+The many optional arguments of the \texttt{geometry}\index{packages!\texttt{geometry}}\index{preamble|(} package allow one to control the \emph{page layout}\index{page layout}. For example, this document has \texttt{geometry} loaded with the arguments \verb|a4paper| and \verb|margin=2cm| to set the page size to A4 (the default is US Letter) and set all margins to 2~cm. Lengths can be expressed in many units such as pt, in, cm, ex, em (see \cite[Lengths]{web:wikibook}). Each of the four margins can be set separately by including \verb|top=3cm| and similar. The orientation of the page can be changed by including \verb|landscape|. For more details, including how to set up asymmetric book style margins, see \cite[\mbox{Page\_Layout}]{web:wikibook} or the \texttt{geometry} package documentation.
+
+\begin{lined}[Advanced] 
+By default, there is no vertical space\index{spacing!paragraphs} between paragraphs\index{paragraphs} and each paragraph (except the first of each section) is indented. To change the paragraph indentation, include in the preamble \verb|\setlength{\parindent}{?}| where \texttt{?} is the desired paragraph indentation width. A standard typographical alternative is to have vertical space between paragraphs instead of paragraph indentations. To change the interparagraph vertical spacing, use \verb|\setlength{\parskip}{?}|. However, changing the value of \verb|\parskip| changes the spacing in lists in an often undesirable way. To compensate for this, after loading the \texttt{enumitem}\index{packages!\texttt{enumitem}} package in the preamble call \verb|\setlist{topsep=0pt}|.
+\end{lined}
+\index{preamble|)}
+
+
+\section{Looking Ahead} \label{sec:looking_ahead}
+\subsection{Ti\emph{k}Z} \label{ssec:la_tikz}
+Ti\emph{k}Z ist \emph{kein} zeichenprogramm or Ti\emph{k}Z\index{Ti\emph{k}Z|(}, for short, is \emph{not} a drawing programme. Rather, Ti\emph{k}Z is a \emph{language} for producing high quality graphics. Therefore, one can use Ti\emph{k}Z to produce graphics in a \LaTeX\ document by including additional code in the \texttt{.tex} file. This allows the graphics to be consistent with the rest of the document in quality and style, and also allows the full \LaTeX\ functionality (math mode, text formatting, cross-references) to be used in the production of the graphics. Drawing basic geometric graphics is straightforward, as is drawing graphs (in the graph theoretic sense). There are also libraries for drawing automata, fractals, knots and much else. Many complex graphics can be produced by exploiting for loops, if statements and the ability to carry out arithmetic operations. The Ti\emph{k}Z and PGF manual \cite{ref:tikz} is the definitive resource for learning and using Ti\emph{k}Z.\index{Ti\emph{k}Z|)}
+
+
+\subsection{Beamer} \label{ssec:la_beamer}
+In this document we have described how to produce a \LaTeX\ document using the document class\index{document class|(} \texttt{article} or similar (see Section~\ref{sssec:gs_basics_outline}). To produce presentation slides, use the \textsc{beamer}\index{\textsc{beamer}} document class. With this document class, the \texttt{.tex} file is a collection of \texttt{frame}\index{environments!\texttt{frame}} environments in which each slide is written. Producing slides in \textsc{beamer} allows the full \LaTeX\ functionality to be used. See the \textsc{beamer} manual for further details \cite{ref:beamer}.\index{document class|)}
+
+For more advanced \textsc{beamer} users we provide some useful tips.
+
+\begin{lined}[Typesetting tip]
+By default, text in \textsc{beamer} is typeset\index{formatting} in sans serif font. Therefore, in math mode use \verb|\mathsf| rather than \verb|\mathrm| for upright text. For example, use \verb|\mathsf{GL}_n(q)|, which gives $\mathsf{GL}$, rather than \verb|$\mathrm{GL}_n(q)$|, which gives $\mathrm{GL}$. 
+
+On a similar note, the default commas and full stops in \textsc{beamer}'s math mode are serif and do not match the sans serif commas and full stops in text mode. (In particular, if the projector has a poor resolution, in math mode, the commas look like full stops because the tails are too faint to be seen.) To make the commas and full stops in math mode match those in text mode, add the following two lines to the preamble:
+
+\begin{verbatim}
+\DeclareMathSymbol{,}{\mathpunct}{operators}{"2C}
+\DeclareMathSymbol{.}{\mathpunct}{operators}{"2E}
+\end{verbatim}
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+By default, a collection of navigation symbols appears in the bottom-right of \textsc{beamer} slides. If you wish to remove these -- which you should -- then include the following in the preamble:
+
+\begin{verbatim}
+\usenavigationsymbolstemplate{}
+\end{verbatim}
+\end{lined}
+
+\begin{lined}[Typesetting tip]
+In many styles, there is a space for the title, author and date in the footer of the slides. If any of these are too long to fit in this space, or you otherwise wish to include a different version of any of these in the footer, then you should make use of the optional arguments in the \verb|\title|, etc.\ commands. For example, if \verb|\date[14.03.2017]{14th March 2017}| is included in the preamble, then the date on the title slide will be ``14th March 2017'', but the date in the footer will be ``14.03.2017''. 
+\end{lined}
+
+
+\subsection{Sources of reference} \label{ssec:la_references}
+The \LaTeX\ wikibook \cite{web:wikibook} is an excellent resource and is a good go-to reference. There are several good \LaTeX\ tutorials online; ShareLaTeX \cite{web:sharelatex} is particularly good. The Detexify app (or website \cite{web:detexify}) is an invaluable resource for determining the command for a particular symbol. The \textsc{Beamer} manual \cite{ref:beamer} and the Ti\textit{k}Z and \textsc{PGF} manual \cite{ref:tikz} are good references on these topics.
+
+However, a quick internet search is usually the fastest way to solve a problem in \LaTeX. In particular, most standard (and many very non-standard) questions have been asked and answered (in great detail) on StackExchange \cite{web:stackexchange}. 
+
+Happy \TeX ing.
+
+
+\begin{thebibliography}{99}
+\bibitem{ref:cameron_81} P. J. Cameron, \textit{Finite permutation groups and finite simple groups}, Bull. London Math. Soc. \textbf{13} (1981), 1--22.
+\bibitem{ref:fulman_guralnick_97} J. Fulman and R. M. Guralnick, \textit{Derangements in simple and primitive groups}, in Groups, Combinatorics \& Geometry: Durham 2001, World Sci. Publ., (2003), 99–-121.
+\bibitem{ref:oxford_manual} Oxford University Press, \textit{New Oxford Style Manual}, Oxford University Press, Oxford, 2016.
+\bibitem{ref:comp_list} S. Pakin, \textit{The Comprehensive \LaTeX\ Symbol List}, 2017, \newline \url{mirror.ox.ac.uk/sites/ctan.org/info/symbols/comprehensive/symbols-a4.pdf}
+\bibitem{ref:beamer} V. Mileti\'c, T. Tantau, J. Wright, \textit{The \textsc{beamer} \textit{class}}, 2017, \newline \url{tug.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf}
+\bibitem{ref:tikz} T. Tantau, \textit{The Ti\emph{k}Z and PGF Packages}, 2013, \newline \url{mirror.ox.ac.uk/sites/ctan.org/graphics/pgf/base/doc/pgfmanual.pdf}
+\bibitem{ref:wilson_09} R. A. Wilson, \textit{The Finite Simple Groups}, Graduate Texts in Mathematics, vol.\ 251, Springer, 2009. 
+\bibitem{web:ams_serials} Abbreviations of Names of Serials, \url{msc2010.org/MSC2010-CD/extras/serials.pdf}
+\bibitem{web:detexify} Detexify, \url{detexify.kirelabs.org/classify.html}
+\bibitem{web:mactex} MacTeX, \url{tug.org/mactex/mactex-download}
+\bibitem{web:miktex} MiKTeX, \url{miktex.org/howto/install-miktex}
+\bibitem{web:sharelatex} ShareLaTeX, \url{www.sharelatex.com}
+\bibitem{web:stackexchange} TeX StackExchange, \url{tex.stackexchange.com}
+\bibitem{web:wikibook} \LaTeX\ wikibook, \url{en.wikibooks.org/wiki/LaTeX}
+\end{thebibliography}
+
+
+\printindex
+
+
+\blfootnote{\hspace{-0.5cm}\copyright\ Scott Harper 2017. This document is licensed under the Creative Commons Attribution-Share Alike 4.0 license.}
+\end{document}

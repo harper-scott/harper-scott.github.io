@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+
+<head> 
+
+  <title>
+    Permutle
+  </title>
+
+  <meta charset="UTF-8">
+
+  <meta name="author" content="Scott Harper">
+
+  <meta name="viewport" content="width=250">
+
+  <link href="sharperstyle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+
+<body>
+  <div id="banner">
+    <ul>
+      <li> <img src="images/1.png" alt="1" style="height:60px;padding-top:3px;padding-bottom:1px;"> <br>
+           <img src="images/S3.png" alt="S3" style="height:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C2.png" alt="C2" style="width:60px;padding-top:3px;padding-bottom:16px;"> <br>
+           <img src="images/C7.png" alt="C7" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C3.png" alt="C3" style="width:60px;padding-top:1px;padding-bottom:3px"> <br>
+           <img src="images/C8.png" alt="C8" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C4.png" alt="1" style="width:60px;padding-top:3px;padding-bottom:20px;"> <br>
+           <img src="images/C2C4.png" alt="C2xC4" style="height:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C2C2.png" alt="C2xC2" style="width:60px;padding-top:12px;padding-bottom:12px;"> <br>
+           <img src="images/C2C2C2.png" alt="C2xC2xC2" style="width:60px;padding-top:12px;padding-bottom:12px;"> </li>
+
+      <li> <img src="images/C5.png" alt="C5" style="width:60px;padding-top:3px;padding-bottom:1px"> <br>
+           <img src="images/D4.png" alt="D4" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C6.png" alt="C6" style="width:60px;padding-top:5px;padding-bottom:1px"> <br>
+           <img src="images/Q8_web.png" alt="Q8" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+    </ul>
+  </div>
+
+
+  <div id="header" style="padding-top:10px;padding-bottom:10px">
+    <h2> Permutle </h2> <br>
+    <a href="index.html">Scott Harper</a>
+  </div>
+
+
+  <div id="content">
+  
+   <p> The word game <a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>, invented by Josh Wardle, has seen huge amounts of popularity since its release in October 2021, and numerous variants have appeared, such as <a href="https://qntm.org/files/absurdle/absurdle.html">Absurdle</a> (adversarial Wordle), <a href="https://zaratustra.itch.io/dordle">Dordle</a> (two linked games of Wordle), <a href="https://converged.yt/primel/">Primel</a> (guessing five-digit primes) and <a href="https://worldle.teuteuf.fr/">Worldle</a> (guessing countries). </p>
+   
+   <p> I make no attempt to discuss the mathematics of the game as an excellent information theoretic discussion of Wordle has already been produced by 3Blue1Brown <a href="https://www.youtube.com/watch?v=v68zYyaEmEA">here</a>. Instead, I want to jump on the bandwagon and add my own, group theoretic, version of Wordle. </p>
+   
+   <p> In Wordle, one must guess a five-letter word (of 2315 possible). Notice that there are 26 choices for each of the five spaces (not all of which are valid words). One must do this in six attempts using the information gained at each step (see <a href="https://www.nytimes.com/games/wordle/index.html">Wordle's website</a> for the full rules). </p>
+
+   <p> In Permutle, one must put two different numbers between 1 and 7 in each of the five squares such that all seven numbers appear at least once and no numbers are in common between the squares, except there should be exactly one number in common between the 1st and 2nd squares, between the 3rd and 4th squares and the 4th and 5th squares. This is represented by the mnemonic <kbd>o---o---o o---o----o---o</kbd> at the top of the game. All other rules are the same as Wordle. I like to think that Permutle is to Wordle as a sudoku is to a crossword. </p> 
+ 
+   <p> In fact, Wordle and Permutle are more similar than they appear at first sight. In Permutle, one is is trying to guess a permutation on seven points (rather than a five-letter word, as in Wordle). It's easy to check that a permutation of {1, 2, 3, 4, 5, 6, 7} is uniquely determined by what it does to the five subsets {1, 2}, {2, 3}, {4, 5}, {5, 6}, {6, 7}. Therefore, we can represent such a permutation by sequence of five two-element subsets. Notice that there 5040 possible answers and there are 21 choices for each of the five spaces (not all of which correspond to valid permutations), so the parameters are broadly similar to the original version of Wordle. </p>
+   
+   <p> For the mathematically curious, ({1, 2}, {2, 3}, {4, 5}, {5, 6}, {6, 7}) is a minimal base for the action of the symmetric group <i>S</i><sub>7</sub> on the set of two-element subsets of {1, 2, 3, 4, 5, 6, 7}, see the survey [Bailey &amp; Cameron, <i>Bull. London Math. Soc.</i> <b>43</b>, 2011] and the paper [Halasi, <i>Studia Sci. Math. Hungar.</i> <b>49</b>, 2012] for much more on the subject. </p>
+   
+   <p> A basic version of this game has been implemented in python.
+   
+   <div class="list">
+   <ul>
+   <li>
+   <b> How to play </b> <br> 
+     Save the file <kbd>permutle.py</kbd> (from <a href="permutle.py">here</a>) <br> 
+     Run <kbd>python3 permutle.py</kbd>. <br>
+     For each turn enter your guess in the form <kbd>12 23 45 57 67</kbd> then hit enter*. <br>
+     In particular, for each pair, give the smaller number first. <br>
+     In the grid: <br>
+     &nbsp; <kbd>&nbsp;23&nbsp;</kbd> means that 23 is wrong (i.e. grey) <br>
+     &nbsp; <kbd>.23.</kbd> means that 23 is in the wrong place (i.e. yellow) <br>
+     &nbsp; <kbd>*23*</kbd> means that 23 is correct (i.e. green). <br>
+     <b>Hard mode.</b> To run in hard mode (with the same meaning as in Wordle), run <kbd>python3 permutle.py -h</kbd>. <br>
+     <b>Random games.</b> By default, Permutle gives today's target answer; to receive a random answer, run <kbd>python3 permutle.py -r</kbd> (add <kbd>-h</kbd> for hard mode).
+   </li>
+   </ul>
+   </div> 
+   </p>
+   
+   <p> *In the example given, <kbd>12 23 45 57 67</kbd> corresponds to guessing that the permutation sends ({1, 2}, {2, 3}, {4, 5}, {5, 6}, {6, 7}) to ({1, 2}, {2, 3}, {4, 5}, {5, 7}, {6,7 }), which in turn corresponds to the permutation that swaps 6 and 7 and fixes the remainder of the points. </p>
+    
+   <p> Frankly, I think Permutle is much less fun than Wordle. Nevertheless, have fun! </p>
+
+  <center> 
+    <img src="images/permutle.png" alt="permutle" style="width:300px">
+  </center>
+
+      
+  </div> 
+
+
+
+  <div id="footer">
+    <ul>    
+      <li> &copy; Scott Harper 2022 </li>
+      <li> Last updated: 11th March 2022 </li>
+    </ul>
+  </div>
+
+
+  <div id="runner">
+  </div>
+
+</body>

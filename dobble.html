@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+
+<head> 
+
+  <title>
+    Dobble
+  </title>
+
+  <meta charset="UTF-8">
+
+  <meta name="author" content="Scott Harper">
+
+  <meta name="viewport" content="width=250">
+
+  <link href="sharperstyle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+
+<body>
+  <div id="banner">
+    <ul>
+      <li> <img src="images/1.png" alt="1" style="height:60px;padding-top:3px;padding-bottom:1px;"> <br>
+           <img src="images/S3.png" alt="S3" style="height:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C2.png" alt="C2" style="width:60px;padding-top:3px;padding-bottom:16px;"> <br>
+          <img src="images/C7.png" alt="C7" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C3.png" alt="C3" style="width:60px;padding-top:1px;padding-bottom:3px"> <br>
+          <img src="images/C8.png" alt="C8" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C4.png" alt="1" style="width:60px;padding-top:3px;padding-bottom:20px;"> <br>
+           <img src="images/C2C4.png" alt="C2xC4" style="height:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C2C2.png" alt="C2xC2" style="width:60px;padding-top:12px;padding-bottom:12px;"> <br>
+          <img src="images/C2C2C2.png" alt="C2xC2xC2" style="width:60px;padding-top:12px;padding-bottom:12px;"> </li>
+
+      <li> <img src="images/C5.png" alt="C5" style="width:60px;padding-top:3px;padding-bottom:1px"> <br>
+          <img src="images/D4.png" alt="D4" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+
+      <li> <img src="images/C6.png" alt="C6" style="width:60px;padding-top:5px;padding-bottom:1px"> <br>
+          <img src="images/Q8_web.png" alt="Q8" style="width:60px;padding-top:1px;padding-bottom:1px;"> </li>
+    </ul>
+  </div>
+
+
+  <div id="header" style="padding-top:10px;padding-bottom:10px">
+    <h2> Dobble </h2><br>
+    <a href="index.html">Scott Harper</a>
+  </div>
+
+
+  <div id="content">
+  
+   <p> <a href="https://www.dobblegame.com/en/games/">Dobble</a> is a game with 55 cards each featuring 8 pictures. There are a total of 57 distinct pictures across all cards. The key property that the set of cards has is that any two distinct cards have exactly one picture in common. However, Dobble is mathematically unsatisfying. For example, some pictures occur on more cards than others: 42 pictures occur 8 times, 14 pictures occur 7 times and one picture (the snowman) occurs only 6 times. </p>
+ 
+   <p> My recommendation is to add the following two cards to your Dobble set:
+     <div class="list">
+     <ul>
+       <li> <kbd> dog, exclamation mark, eye, hammer, ladybird, lightbulb, skull & crossbones, snowman
+</kbd> </li>
+       <li> <kbd> cactus, dinosaur, flower, ice cube, leaf, person, question mark, snowman </kbd> </li>
+     </ul>
+     </div>
+  </p>
+
+  <p> This new improved version of Dobble has the following properties: <br> 
+  &nbsp; <kbd>&gt;</kbd> there are exactly 57 pictures <br>
+  &nbsp; <kbd>&gt;</kbd> there are exactly 57 cards <br>
+  &nbsp; <kbd>&gt;</kbd> each card features exactly 8 pictures <br>
+  &nbsp; <kbd>&gt;</kbd> each picture is featured on exactly 8 cards <br> 
+  &nbsp; <kbd>&gt;</kbd> any two cards have a unique picture in common <br>
+  &nbsp; <kbd>&gt;</kbd> any two pictures feature together on a unique card. </p>
+ 
+  <p> Said otherwise, taking the pictures as points and cards as lines, with the obvious notion of containment, this extended version of Dobble forms a projective plane of order 7 (noting that 57=7<sup>2</sup>+7+1 and 8=7+1). </p>
+  
+  <p> I gave the talk <i>Dobbly Disappointing</i> on this subject at the University of Bristol in October 2017 and further details can be found in my <a href="./tdm/tdm.pdf">lecture notes</a> for the course Topics in Discrete Mathematics in spring 2021.
+  
+  </div>
+
+  <div id="footer">
+    <ul>    
+      <li> &copy; Scott Harper 2017 </li>
+      <li> Last updated: 1st December 2017 </li>
+    </ul>
+  </div>
+
+  <div id="runner">
+  </div>
+
+</body>
