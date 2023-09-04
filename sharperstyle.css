@@ -84,6 +84,20 @@ a:hover, a:active {
   height:30px;
 }
 
+#seminar table{
+ border-spacing:0px;
+}
+
+#seminar td {
+  vertical-align:top;
+  padding:0px;
+  padding-right:15px;
+}
+
+#seminar td:nth-child(even) {
+  padding-bottom:15px;
+}
+
 #nav ul, #footer ul {
   margin:0px;
   padding:0px;
