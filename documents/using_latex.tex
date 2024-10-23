@@ -1,13 +1,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% using_latex.tex %%%%%%%%%%%%%%%
 %%%%%%%% Scott Harper %%%%%%%%%%%%%%%%%%
-%%%%%%%% 2017 %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% 2024 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% COPYRIGHT %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Copyright Scott Harper 2017. 
+%%% Copyright Scott Harper 2024. 
 %%% This document is licensed 
 %%% under the Creative Commons
 %%% Attribution-Share Alike 4.0 license.
@@ -139,13 +139,13 @@ Three caveats: \emph{I do not seek to be authoritative.} To the best of my knowl
 \subsection{Getting \LaTeX} \label{ssec:gs_getting_latex}
 \LaTeX\ is a mechanism by which one writes a \emph{source file}\index{source file} -- a plain text file with file extension \texttt{.tex} -- and transforms this into a high quality document (usually a PDF). The source file contains both the content of your document and instructions on how this content should be presented. Therefore, you will need an \emph{editor}\index{editor} for writing the \texttt{.tex} file and a \emph{compiler}\index{compiler} to create final document.
 
-The fastest way to begin doing this -- but one which is not free of disadvantages -- is the online resource ShareLaTeX.\@ In your browser there will be two panels: in one you write your \texttt{.tex} file and the other will show the compiled PDF when you click ``Recompile''. ShareLaTeX, as the name suggests, has capabilities for multiple users sharing files and working on the same document at once.
+The fastest way to begin doing this -- but one which is not free of disadvantages -- is the online resource Overleaf.\@ In your browser there will be two panels: in one you write your \texttt{.tex} file and the other will show the compiled PDF when you click ``Recompile''. Overleaf has capabilities for multiple users sharing files and working on the same document at once.
 
 In the long run, working on your desktop, rather than the browser, is probably recommended. In this case, you should download a \LaTeX\ editor -- for example, TeXstudio -- and a compiler. For the latter, I recommend that Mac users download MacTeX \cite{web:mactex} and Windows users download MiKTeX \cite{web:miktex}.  Of course, if you prefer you can work in the terminal. Here you can use your favourite text editor to write the \texttt{.tex} file, then you can compile using \texttt{pdflatex}\index{pdflatex}.
 
 
 \subsection{Your first document} \label{ssec:gs_first_doc}
-Let us begin by explaining how to produce your first \LaTeX\ file. Open your \LaTeX\ editor (for example, TeXstudio, ShareLaTeX or vim) and write the following  basic \LaTeX\ file.
+Let us begin by explaining how to produce your first \LaTeX\ file. Open your \LaTeX\ editor (for example, TeXstudio, Overleaf or vim) and write the following  basic \LaTeX\ file.
 
 \begin{verbatim}
 \documentclass{article}
@@ -155,14 +155,14 @@ This is a very simple document.
 \end{document}
 \end{verbatim} 
 
-Save this file as \texttt{first.tex}, then compile this document. Your \LaTeX\ editor's manual should make it clear how to do this: in ShareLaTeX click the ``Recompile'' button and in TeXstudio click the play button. More files will have appeared in the folder where you saved the file \texttt{first.tex}. One of these files will be \texttt{first.pdf}. This compiled document should include ``This is a very simple document.'' and nothing else (other than a page number). 
+Save this file as \texttt{first.tex}, then compile this document. Your \LaTeX\ editor's manual should make it clear how to do this: in Overleaf click the ``Recompile'' button and in TeXstudio click the play button. More files will have appeared in the folder where you saved the file \texttt{first.tex}. One of these files will be \texttt{first.pdf}. This compiled document should include ``This is a very simple document.'' and nothing else (other than a page number). 
 
 If you managed this, then you can now write any document, provided that it consists only of text and provided you don't want to change the formatting of the document. In Section~\ref{sec:how}, we look at how to do much more exciting things. However, we will conclude this section by explaining some of the essential background to \LaTeX. 
 
 
 \subsection{The basics} \label{ssec:gs_basics}
 \subsubsection{The outline of a \LaTeX\ document} \label{sssec:gs_basics_outline}
-Every \LaTeX\ file begins with the line \verb|\documentclass{?}| where \texttt{?} is your choice of the \emph{document class}\index{document class|(textbf}. Possible document classes include \texttt{article}, \texttt{report} and \texttt{book}. For the purpose of this guide we may assume that the document class is \texttt{article}. Other document classes, unsurprisingly, provide features suitable for producing other classes of documents (see \cite[\mbox{Document\_Structure\#Document\_classes}]{web:wikibook}).\index{document class|)}
+Every \LaTeX\ file begins with the line \verb|\documentclass{?}| where \texttt{?} is your choice of the \emph{document class}\index{document class|(textbf}. Possible document classes include \texttt{article}, \texttt{report} and \texttt{book}. For the purpose of this guide we may assume that the document class is \texttt{article}. Other document classes, unsurprisingly, provide features suitable for producing other classes of documents (see \cite[\mbox{Document Structure/Document classes}]{web:wikibook}).\index{document class|)}
 
 Every \LaTeX\ file contains the line \verb|\begin{document}| and later \verb|\end{document}|. All lines between these two, contribute directly to output file. The lines before these are known as the \emph{preamble}\index{preamble}, where general commands are placed which affect the entire document. 
 
@@ -282,7 +282,7 @@ The document's \emph{text size}\index{formatting!text size} can be altered by pa
 \item \verb|{\normalsize standard text}| gives {\normalsize standard text}
 \item \verb|{\Huge far too big}| gives {\Huge far too big}
 \end{itemize}
-See \cite[\mbox{Fonts\#Font\_styles}]{web:wikibook} for a full list of available sizes. There are not many occasions for manually changing the size of text. For example, section headings are bigger than body text and footnotes are smaller.
+See \cite[\mbox{Fonts/Font styles}]{web:wikibook} for a full list of available sizes. There are not many occasions for manually changing the size of text. For example, section headings are bigger than body text and footnotes are smaller.
 
 Different \emph{colours}\index{colour|(} can be used in a \LaTeX\ document. However, in general, there are better methods of emphasis since you cannot guarantee that your document will be read in colour. To use colour in \LaTeX\ load the \texttt{xcolor}\index{packages!\texttt{xcolor}} package. Then the \verb|\textcolor| command can be used to provide coloured text. For example, \verb|\textcolor{red}{cats}| will give \textcolor{red}{cats} [``cats'' is in red]. The first argument of \verb|\textcolor| specifies the colour and the second argument is the text to be coloured. There are several ways of specifying a colour. Many basic colours are available by name (such as \texttt{red} in this example), and more colours can be called in this way by loading the \texttt{xcolor} package with the optional argument \texttt{dvipsnames}. Alternatively, specific colours can be defined in the preamble, according to a choice of colour models, then used later in the document. For more information see \cite[Colors]{web:wikibook}.\index{colour|)}\index{formatting|)}
 
@@ -609,7 +609,7 @@ Big mathematical symbols -- for example for integrals, sums, products, unions, i
 \begin{verbatim}
 \[ \sum_{n=1}^{\infty}\frac{\pi^2}{6}\]
 \end{verbatim}
-gives \[ \sum_{n=1}^{\infty}\frac{\pi^2}{6}\] Note the difference between display\index{display} and inline\index{inline}. For more see \cite[\mbox{Mathematics\#Sums\_and\_integrals}]{web:wikibook}.
+gives \[ \sum_{n=1}^{\infty}\frac{\pi^2}{6}\] Note the difference between display\index{display} and inline\index{inline}. For more see \cite[\mbox{Mathematics/Sums and integrals}]{web:wikibook}.
 
 \begin{lined}[Advanced] 
 To include multiple lines of text under a large operator, use the \verb|\substack| command. For example, \verb|\[ \sum_{\substack{i=0 \\ i \not\in A}}^{n} i^2 \]| gives \[ \sum_{\substack{i=0 \\ i \not\in A}}^{n} i^2 \]
@@ -852,7 +852,7 @@ There are several important uses of the the thin space provided by \verb|\,|.
 \subsection{Images, floats and captions} \label{ssec:how_floats}
 To insert an \emph{image}\index{images} into a \LaTeX\ file, save the image file in the same folder as your \texttt{.tex} file and ensure that the image is a \texttt{.png}, \texttt{.jpg} or \texttt{.pdf} file. If the image is named \texttt{fish.png}, then the command \verb|\includegraphics{fish.jpg}| (from the \texttt{graphicx}\index{packages!\texttt{graphicx}} package) will insert the image at the corresponding place in the document. 
 
-By default, the image will be included at its original size. The command \verb|\includegraphics| has optional arguments which allow you to adjust the size. To specify the width of the image, use the argument \verb|width=?| (where \texttt{?} is the desired width) and for height use \verb|height=?|. If only one of the width and height are specified, then the aspect ratio will be maintained from the original image (this is generally recommended). The dimensions can be specified in any of the units \LaTeX\ understands (for example, pt, cm, in, ex, em, see \cite[Lengths]{web:wikibook}), but \verb|\textwidth|, which is set to be the width of the text in the document, is often very useful in this case. For example, the following image is centered, is a quarter of the text width and has the same aspect ratio as the original image.
+By default, the image will be included at its original size. The command \verb|\includegraphics| has optional arguments which allow you to adjust the size. To specify the width of the image, use the argument \verb|width=?| (where \texttt{?} is the desired width) and for height use \verb|height=?|. If only one of the width and height are specified, then the aspect ratio will be maintained from the original image (this is generally recommended). The dimensions can be specified in any of the units \LaTeX\ understands (for example, pt, cm, in, ex, em, see \cite[Lengths]{web:wikibook}), but \verb|\textwidth|, which is set to be the width of the text in the document, is often very useful in this case. For example, the following image is centred, is a quarter of the text width and has the same aspect ratio as the original image.
 
 \begin{center}
 \includegraphics[width=0.25\textwidth]{fish.jpg}
@@ -916,12 +916,12 @@ There are many different referencing styles and there is not a complete consensu
 \end{lined}
 
 \begin{lined}[Advanced]
-\textsc{Bib}\TeX\ \index{\textsc{Bib}\TeX} provides a more automated way of producing reference lists. With this, one produces a separate \textsc{Bib}\TeX\ file, named say \texttt{references.bib}, which contains the bibliographic data, then includes the commands \verb|\bibliographystyle{plain}| and \verb|\bibliography{references.bib}| at the end of the main \LaTeX\ file. Inline markers are still included using the \verb|\cite|. To customise the style of the references, replace \texttt{plain} by an alternative style or a bespoke \texttt{.bst} file. There are style files for most major referencing styles. There are also programs for producing a \texttt{.bst} file based on particular preferences. Alternatively, one can write one's own in reverse Polish notation. For more, see \cite[Bibliography\_Management]{web:wikibook}. 
+\textsc{Bib}\TeX\ \index{\textsc{Bib}\TeX} provides a more automated way of producing reference lists. With this, one produces a separate \textsc{Bib}\TeX\ file, named say \texttt{references.bib}, which contains the bibliographic data, then includes the commands \verb|\bibliographystyle{plain}| and \verb|\bibliography{references.bib}| at the end of the main \LaTeX\ file. Inline markers are still included using the \verb|\cite|. To customise the style of the references, replace \texttt{plain} by an alternative style or a bespoke \texttt{.bst} file. There are style files for most major referencing styles. There are also programs for producing a \texttt{.bst} file based on particular preferences. Alternatively, one can write one's own in reverse Polish notation. For more, see \cite[Bibliography Management]{web:wikibook}. 
 \end{lined}
 
 
 \subsection{Page layout and paragraphing} \label{ssec:how_layout}
-The many optional arguments of the \texttt{geometry}\index{packages!\texttt{geometry}}\index{preamble|(} package allow one to control the \emph{page layout}\index{page layout}. For example, this document has \texttt{geometry} loaded with the arguments \verb|a4paper| and \verb|margin=2cm| to set the page size to A4 (the default is US Letter) and set all margins to 2~cm. Lengths can be expressed in many units such as pt, in, cm, ex, em (see \cite[Lengths]{web:wikibook}). Each of the four margins can be set separately by including \verb|top=3cm| and similar. The orientation of the page can be changed by including \verb|landscape|. For more details, including how to set up asymmetric book style margins, see \cite[\mbox{Page\_Layout}]{web:wikibook} or the \texttt{geometry} package documentation.
+The many optional arguments of the \texttt{geometry}\index{packages!\texttt{geometry}}\index{preamble|(} package allow one to control the \emph{page layout}\index{page layout}. For example, this document has \texttt{geometry} loaded with the arguments \verb|a4paper| and \verb|margin=2cm| to set the page size to A4 (the default is US Letter) and set all margins to 2~cm. Lengths can be expressed in many units such as pt, in, cm, ex, em (see \cite[Lengths]{web:wikibook}). Each of the four margins can be set separately by including \verb|top=3cm| and similar. The orientation of the page can be changed by including \verb|landscape|. For more details, including how to set up asymmetric book style margins, see \cite[\mbox{Page Layout}]{web:wikibook} or the \texttt{geometry} package documentation.
 
 \begin{lined}[Advanced] 
 By default, there is no vertical space\index{spacing!paragraphs} between paragraphs\index{paragraphs} and each paragraph (except the first of each section) is indented. To change the paragraph indentation, include in the preamble \verb|\setlength{\parindent}{?}| where \texttt{?} is the desired paragraph indentation width. A standard typographical alternative is to have vertical space between paragraphs instead of paragraph indentations. To change the interparagraph vertical spacing, use \verb|\setlength{\parskip}{?}|. However, changing the value of \verb|\parskip| changes the spacing in lists in an often undesirable way. To compensate for this, after loading the \texttt{enumitem}\index{packages!\texttt{enumitem}} package in the preamble call \verb|\setlist{topsep=0pt}|.
@@ -964,7 +964,7 @@ In many styles, there is a space for the title, author and date in the footer of
 
 
 \subsection{Sources of reference} \label{ssec:la_references}
-The \LaTeX\ wikibook \cite{web:wikibook} is an excellent resource and is a good go-to reference. There are several good \LaTeX\ tutorials online; ShareLaTeX \cite{web:sharelatex} is particularly good. The Detexify app (or website \cite{web:detexify}) is an invaluable resource for determining the command for a particular symbol. The \textsc{Beamer} manual \cite{ref:beamer} and the Ti\textit{k}Z and \textsc{PGF} manual \cite{ref:tikz} are good references on these topics.
+The \LaTeX\ wikibook \cite{web:wikibook} is an excellent resource and is a good go-to reference. There are several good \LaTeX\ tutorials online; Overleaf \cite{web:overleaf} is particularly good. The Detexify app (or website \cite{web:detexify}) is an invaluable resource for determining the command for a particular symbol. The \textsc{Beamer} manual \cite{ref:beamer} and the Ti\textit{k}Z and \textsc{PGF} manual \cite{ref:tikz} are good references on these topics.
 
 However, a quick internet search is usually the fastest way to solve a problem in \LaTeX. In particular, most standard (and many very non-standard) questions have been asked and answered (in great detail) on StackExchange \cite{web:stackexchange}. 
 
@@ -983,7 +983,7 @@ Happy \TeX ing.
 \bibitem{web:detexify} Detexify, \url{detexify.kirelabs.org/classify.html}
 \bibitem{web:mactex} MacTeX, \url{tug.org/mactex/mactex-download}
 \bibitem{web:miktex} MiKTeX, \url{miktex.org/howto/install-miktex}
-\bibitem{web:sharelatex} ShareLaTeX, \url{www.sharelatex.com}
+\bibitem{web:overleaf} Overleaf, \url{www.overleaf.com}
 \bibitem{web:stackexchange} TeX StackExchange, \url{tex.stackexchange.com}
 \bibitem{web:wikibook} \LaTeX\ wikibook, \url{en.wikibooks.org/wiki/LaTeX}
 \end{thebibliography}
@@ -992,5 +992,5 @@ Happy \TeX ing.
 \printindex
 
 
-\blfootnote{\hspace{-0.5cm}\copyright\ Scott Harper 2017. This document is licensed under the Creative Commons Attribution-Share Alike 4.0 license.}
+\blfootnote{\hspace{-0.5cm}\copyright\ Scott Harper 2024. This document is licensed under the Creative Commons Attribution-Share Alike 4.0 license.}
 \end{document}
